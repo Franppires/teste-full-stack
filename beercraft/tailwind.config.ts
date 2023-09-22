@@ -18,7 +18,7 @@ const config: Config = {
         'dark-brown': '#4E4537',
         'green': '#00B39A',
         'dark-green': '#006E61',
-        'gray': '#B5AA99',
+        'gray': '#e7d9c2',
       },
     },
   },
