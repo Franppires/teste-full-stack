@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 export default function Login() {
   return (
-    // https://api.punkapi.com/v2/beers?brewed_before=11-2012&abv_gt=6
     <main
       className='flex min-h-screen flex-col items-center justify-between p-24'
       style={{
@@ -70,8 +69,10 @@ export default function Login() {
           Access
         </button>
         <Link href='' className='text-center text-sm hover:underline hover:text-yellow'>
-          Create account
+          Create account 
         </Link>
+
+        {/* criar a pagina de cadastro  */}
       </form>
     </main>
   );
