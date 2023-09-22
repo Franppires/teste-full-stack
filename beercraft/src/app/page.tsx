@@ -17,7 +17,7 @@ export default function Home() {
         <p className='text-xl font-semibold'>
           Want to explore a wide variety of beers from around the world?
         </p>
-        <p className='text-xl font-semibold'>If so, you're in the right place!</p>
+        <p className='text-xl font-semibold'>If so youre in the right place!</p>
       </section>
     </main>
   );

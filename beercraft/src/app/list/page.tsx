@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export default async function List() {
   const response = await fetch('https://api.punkapi.com/v2/beers');

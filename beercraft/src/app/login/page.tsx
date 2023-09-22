@@ -68,10 +68,9 @@ export default function Login() {
         >
           Access
         </button>
-        <Link href='' className='text-center text-sm hover:underline hover:text-yellow'>
-          Create account 
+        <Link href='/create' className='text-center text-sm hover:underline hover:text-yellow'>
+          Create account
         </Link>
-
         {/* criar a pagina de cadastro  */}
       </form>
     </main>
