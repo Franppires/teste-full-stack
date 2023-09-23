@@ -55,7 +55,7 @@ export default function Login() {
           </div>
 
           <div className='text-sm'>
-            <Link href='#' className='hover:text-yellow hover:underline'>
+            <Link href='/' className='text-center text-sm hover:underline hover:text-yellow'>
               Forgot your password?
             </Link>
           </div>
