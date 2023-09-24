@@ -89,7 +89,7 @@ export default function Create() {
         className='bg-dark-brown opacity-90 w-full md:w-1/2 lg:w-1/3 bg-opacity-50 py-8 p-4 md:p-8 rounded-lg flex flex-col gap-4 justify-center mt-24'
       >
         <h2 className='text-2xl md:text-3xl font-bold text-center '>Create Account</h2>
-    
+
         <div className='flex flex-col gap-2'>
           <label htmlFor='name'>Name</label>
           <input
@@ -167,10 +167,7 @@ export default function Create() {
           {!isPasswordMatch && <span className='text-red-400'>Passwords do not match</span>}
         </div>
 
-        <button
-          type='submit'
-          className='bg-dark-green hover:bg-green mt-4 p-2 rounded text-white '
-        >
+        <button type='submit' className='bg-dark-green hover:bg-green mt-4 p-2 rounded text-white '>
           Create Account
         </button>
 
@@ -179,7 +176,3 @@ export default function Create() {
     </main>
   );
 }
-
-
-
-

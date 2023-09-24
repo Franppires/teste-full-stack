@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState, useEffect } from 'react';
 
 export default function List() {
@@ -59,7 +59,10 @@ export default function List() {
         >
           Previous Page
         </button>
-        <button className='m-2 p-2 rounded-full text-lg bg-dark-green text-white hover:bg-green' onClick={nextPage}>
+        <button
+          className='m-2 p-2 rounded-full text-lg bg-dark-green text-white hover:bg-green'
+          onClick={nextPage}
+        >
           Next Page
         </button>
       </div>

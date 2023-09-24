@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -6,11 +6,11 @@ import { useForm } from 'react-hook-form';
 type loginData = {
   email: string;
   password: string;
-}
+};
 
 export default function Login() {
-  const { register, handleSubmit } = useForm<loginData>(); //dados dos inputs com react hooks forms 
-  const [message, setMessage] = useState<string | null>(null); //mensagem de erro 
+  const { register, handleSubmit } = useForm<loginData>(); //dados dos inputs com react hooks forms
+  const [message, setMessage] = useState<string | null>(null); //mensagem de erro
 
   const onSubmit = async (data: loginData) => {
     try {
@@ -20,8 +20,8 @@ export default function Login() {
       });
 
       if (response.ok) {
-        //login bem-sucedido, redirecione para a página de listagem 
-        window.location.href = '/list'; 
+        //login bem-sucedido, redirecione para a página de listagem
+        window.location.href = '/list';
       } else {
         const responseData = await response.json();
         setMessage(responseData.message);
@@ -80,11 +80,8 @@ export default function Login() {
           type='submit'
           className='bg-dark-green hover:bg-green mt-4 mb-6 p-2 rounded text-gray'
         >
-          <Link href='/create'>
-            Create account
-          </Link>
+          <Link href='/create'>Create account</Link>
         </button>
-
       </form>
     </main>
   );
