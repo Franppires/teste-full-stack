@@ -20,7 +20,7 @@ export default function Home() {
           Want to explore a wide variety of beers from around the world?
         </p>
         <p className='text-md md:text-lg lg:text-xl xl:text-2xl font-semibold'>
-          If so, you're in the right place!
+          If so youre in the right place!
         </p>
       </section>
     </main>
