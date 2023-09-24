@@ -1,7 +1,8 @@
 'use client';
+import React, { useState } from 'react';
 import { SubmitHandler, SubmitErrorHandler, useForm } from 'react-hook-form';
 
-export type dateAccount = {
+export type accountData = {
   name: string;
   email: string;
   phone: string;
@@ -15,11 +16,14 @@ export default function Create() {
     handleSubmit,
     formState: { errors },
     clearErrors,
-  } = useForm<dateAccount>({
+    watch,
+  } = useForm<accountData>({
     mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<dateAccount> = async (data: dateAccount) => {
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const onSubmit: SubmitHandler<accountData> = async (data: accountData) => {
     try {
       var bodyData = new FormData();
 
@@ -33,7 +37,6 @@ export default function Create() {
       const requestOptions = {
         method: 'POST',
         body: bodyData,
-        // body: JSON.stringify(data)// Certifique-se de converter os dados em JSON
       };
 
       // Faça a solicitação POST para o servidor XAMPP
@@ -42,7 +45,18 @@ export default function Create() {
       if (response.ok) {
         // Se a resposta for bem-sucedida, você pode lidar com a resposta aqui
         const responseData = await response.json(); // Use .json() para obter os dados da resposta
-        console.log(responseData);
+
+        if (responseData.status === 'success') {
+          // Cadastro bem-sucedido, defina a mensagem de sucesso
+          setSuccessMessage('Cadastro realizado com sucesso. Por favor aguarde!');
+          // Aguarde alguns segundos e depois redirecione para a tela de login
+          setTimeout(() => {
+            window.location.href = '/login'; // Redirecione para a tela de login
+          }, 1000); // Redirecione após 3 segundos (ajuste conforme necessário)
+        } else {
+          // Cadastro falhou, mostre a mensagem de erro
+          console.error('Erro no cadastro:', responseData.message);
+        }
       } else {
         // Se a resposta não for bem-sucedida, lide com o erro aqui
         console.error('Erro na solicitação POST:', response.status, response.statusText);
@@ -53,11 +67,16 @@ export default function Create() {
     }
   };
 
-  const onError: SubmitErrorHandler<dateAccount> = errors => console.log(errors);
+  // Adicione uma validação personalizada para a confirmação de senha
+  const password = watch('password');
+  const confirm = watch('confirm');
+  const isPasswordMatch = password === confirm;
+
+  const onError: SubmitErrorHandler<accountData> = errors => console.log(errors);
 
   return (
     <main
-      className='flex min-h-screen flex-col items-center justify-between p-24'
+      className='flex min-h-screen flex-col items-center justify-center p-4 md:p-8 lg:p-12'
       style={{
         backgroundImage: 'url("/beer.png")',
         backgroundSize: 'cover',
@@ -67,9 +86,10 @@ export default function Create() {
     >
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
-        className='bg-dark-brown w-1/2 bg-opacity-50 p-16 rounded-lg flex flex-col gap-6 justify-center'
+        className='bg-dark-brown opacity-90 w-full md:w-1/2 lg:w-1/3 bg-opacity-50 py-8 p-4 md:p-8 rounded-lg flex flex-col gap-4 justify-center mt-24'
       >
-        <h2 className='text-3xl pb-8 flex justify-center font-bold'>Create Account</h2>
+        <h2 className='text-2xl md:text-3xl font-bold text-center '>Create Account</h2>
+    
         <div className='flex flex-col gap-2'>
           <label htmlFor='name'>Name</label>
           <input
@@ -78,7 +98,7 @@ export default function Create() {
             name='name'
             id='name'
             placeholder='Type your e-mail'
-            className=' bg-gray rounded text-dark-brown p-2 px-4'
+            className='bg-gray rounded text-dark-brown p-2 px-4'
             onClick={() => clearErrors('name')}
           />
           {errors.name && <span className='text-red-400  '>{errors.name.message}</span>}
@@ -118,8 +138,8 @@ export default function Create() {
             {...register('password', {
               required: 'The password is mandatory',
               minLength: {
-                value: 8,
-                message: 'Password must be at least 8 characters long',
+                value: 4,
+                message: 'Password must be at least 4 characters long',
               },
             })}
             type='password'
@@ -129,31 +149,37 @@ export default function Create() {
             className='bg-gray rounded text-dark-brown p-2 px-4'
             onClick={() => clearErrors('password')}
           />
-
           {errors.password && <span className='text-red-400  '>{errors.password.message}</span>}
         </div>
+
         <div className='flex flex-col gap-2'>
-          <label htmlFor='password'>Confirm Password</label>
+          <label htmlFor='confirm'>Confirm Password</label>
           <input
             {...register('confirm', { required: 'The confirm password is mandatory' })}
             type='password'
             name='confirm'
             id='confirm'
             placeholder='Type your confirm-confirm'
-            className=' bg-gray rounded text-dark-brown p-2 px-4'
+            className='bg-gray rounded text-dark-brown p-2 px-4'
             onClick={() => clearErrors('confirm')}
           />
-          {errors.password && <span className='text-red-400  '>{errors.password.message}</span>}
+          {/* Exiba a mensagem de erro se a confirmação de senha não coincidir com a senha */}
+          {!isPasswordMatch && <span className='text-red-400'>Passwords do not match</span>}
         </div>
 
         <button
-          type='submit' // Altere para 'submit' se você estiver enviando o formulário para autenticação
-          className='bg-dark-green hover:bg-green mt-6 mb-6 p-2 rounded text-gray'
-          // onClick={handleLogin}
+          type='submit'
+          className='bg-dark-green hover:bg-green mt-4 p-2 rounded text-white '
         >
           Create Account
         </button>
+
+        {successMessage && <div className='text-green-400'>{successMessage}</div>}
       </form>
     </main>
   );
 }
+
+
+
+
