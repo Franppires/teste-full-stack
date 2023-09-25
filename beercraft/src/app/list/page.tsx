@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 export default function List() {
@@ -41,7 +40,7 @@ export default function List() {
             key={beer.id}
             className='w-300 p-4 flex flex-col gap-rounded cursor-pointer bg-dark-brown opacity-90rounded-md'
           >
-            <Image src={beer.image_url} alt={beer.name} width={66} height={96} />
+            <img src={beer.image_url} alt={beer.name} width={66} height={96} />
             <h2 className='text-xl font-semibold'>{beer.name}</h2>
             <p className='text-gray-700'>{beer.tagline}</p>
             <p className='text-gray-300 mb-4'>
