@@ -1,10 +1,40 @@
-'use client ';
+'use client';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+
+type loginData = {
+  email: string;
+  password: string;
+};
 
 export default function Login() {
+  const { register, handleSubmit } = useForm<loginData>(); //dados dos inputs com react hooks forms
+  const [message, setMessage] = useState<string | null>(null); //mensagem de erro
+
+  const onSubmit = async (data: loginData) => {
+    try {
+      const response = await fetch('http://localhost/beercraft/login/index.php', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        //login bem-sucedido, redirecione para a página de listagem
+        window.location.href = '/list';
+      } else {
+        const responseData = await response.json();
+        setMessage(responseData.message);
+      }
+    } catch (error) {
+      console.error('Error when making post request:', error);
+      setMessage('Error when making post request.');
+    }
+  };
+
   return (
     <main
-      className='flex min-h-screen flex-col items-center justify-between p-24'
+      className='flex min-h-screen flex-col items-center justify-center p-4 md:p-8 lg:p-12'
       style={{
         backgroundImage: 'url("/beer.png")',
         backgroundSize: 'cover',
@@ -13,65 +43,45 @@ export default function Login() {
       }}
     >
       <form
-        action=''
-        className='bg-dark-brown bg-opacity-50 p-16 rounded-lg flex flex-col justify-center py-auto'
+        onSubmit={handleSubmit(onSubmit)}
+        className='bg-dark-brown opacity-90 p-16 rounded-lg flex flex-col justify-center py-auto'
       >
         <h2 className='text-3xl pb-8 flex justify-center font-bold'>Hello, welcome back!</h2>
         <label htmlFor='email'>E-mail</label>
         <input
+          {...register('email')}
           type='email'
           name='email'
           id='email'
           placeholder='Type your e-mail'
           className='mb-8 mt-2 bg-gray rounded text-dark-brown p-2 px-4'
-          // value={email}
-          // onChange={(e) => setEmail(e.target.value)}
-          required
         />
 
         <label htmlFor='password'>Password</label>
         <input
+          {...register('password')}
           type='password'
           name='password'
           id='password'
           placeholder='Type your password'
-          className='mb-8 mt-2 bg-gray rounded text-dark-brown p-2 px-4'
-          // value={password}
-          // onChange={(e) => setPassword(e.target.value)}
+          className='mb-4 mt-2 bg-gray rounded text-dark-brown p-2 px-4'
           required
         />
 
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center'>
-            <input
-              id='remember_me'
-              name='remember_me'
-              type='checkbox'
-              className='h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'
-            />
-            <label htmlFor='remember_me' className='ml-2 block text-sm text-gray-900'>
-              Remember me
-            </label>
-          </div>
-
-          <div className='text-sm'>
-            <Link href='#' className='hover:text-yellow hover:underline'>
-              Forgot your password?
-            </Link>
-          </div>
-        </div>
+        {message && <div className='text-red-400'>{message}</div>}
 
         <button
-          type='button' // Altere para 'submit' se você estiver enviando o formulário para autenticação
-          className='bg-dark-green hover:bg-green mt-6 mb-6 p-2 rounded text-gray'
-          // onClick={handleLogin}
+          type='submit'
+          className='bg-dark-green hover:bg-green mt-6 mb-4 p-2 rounded text-gray'
         >
           Access
         </button>
-        <Link href='/create' className='text-center text-sm hover:underline hover:text-yellow'>
-          Create account
-        </Link>
-        {/* criar a pagina de cadastro  */}
+        <button
+          type='submit'
+          className='bg-dark-green hover:bg-green mt-4 mb-6 p-2 rounded text-gray'
+        >
+          <Link href='/create'>Create account</Link>
+        </button>
       </form>
     </main>
   );
